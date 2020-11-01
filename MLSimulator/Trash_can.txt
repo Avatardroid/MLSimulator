@@ -1,0 +1,73 @@
+﻿            !!!!!!!!!!!!!!!!!!!!!ИМХО
+            
+            //string work_folder = GetPath("Выберите папку с DataSet");
+            //if (work_folder == string.Empty)
+            //{
+            //    return;
+            //}
+            //List<string[]> ml_info = new List<string[]>();
+            //ml_info.Add(new string[] { "pic", "sample", "quality"});
+            //List<string[]> list_oc = new List<string[]>();
+            //using (StreamReader sr = new StreamReader(Path.Combine(work_folder, @"OpenPart.csv")))
+            //{
+            //    while (!sr.EndOfStream)
+            //    {
+            //        var line = sr.ReadLine();
+            //        list_oc.Add(line.Split(','));
+            //    }
+            //}
+            //progressBar1.Maximum = list_oc.Count();
+            //for (int i = 1; i < list_oc.Count(); i++)
+            //{
+            //    for (int k = 1; k < 4; k++)
+            //    {
+            //        pictureBox1.Image = new Bitmap(new DirectoryInfo(Path.Combine(work_folder, @"Expert")).GetFiles($"{list_oc[i][0].Split('.')[0]}*")[0].FullName);
+            //        pictureBox2.Image = new Bitmap(new DirectoryInfo(Path.Combine(work_folder, @"Origin")).GetFiles($"{list_oc[i][0].Split('.')[0]}*")[0].FullName);
+            //        pictureBox4.Image = new Bitmap(new DirectoryInfo(Path.Combine(work_folder, $@"sample_{k}")).GetFiles($"{list_oc[i][0].Split('.')[0]}*")[0].FullName);
+            //        DialogResult dialogResult = MessageBox.Show($"Подходит? Оценка {list_oc[i][k]}", "Оценка", MessageBoxButtons.YesNoCancel);
+            //        if (dialogResult == DialogResult.Cancel)
+            //            goto ppp;
+            //        ml_info.Add(new string[] { list_oc[i][0], $@"sample_{k}", dialogResult.ToString() });
+            //    }
+            //    progressBar1.Value++;
+            //    Application.DoEvents();
+            //}
+
+            //progressBar1.Value++;
+            //Application.DoEvents();
+            //ppp:
+            //using (StreamWriter sr = new StreamWriter(Path.Combine(work_folder, @"IMHO.csv")))
+            //{
+            //    foreach (string[] temp_line in ml_info)
+            //    {
+            //        sr.WriteLine(String.Join(";", temp_line));
+            //    }
+            //}
+            //progressBar1.Value = 0;
+            //MessageBox.Show("Оценка завершена. Файл создан");
+
+            !!!!!!!!!!!!!!!!!!!!!GetSquare
+
+                    public static Image<Bgr, byte> ChangeShapes(Image<Bgr, byte> rgbimage)
+        {
+            Image<Bgr, byte> ret = rgbimage;
+            var image = rgbimage.InRange(new Bgr(254, 254, 254), new Bgr(255, 255, 255));
+            var mat = rgbimage.Mat;
+            mat.SetTo(new MCvScalar(0, 0, 0), image);
+            mat.CopyTo(ret);
+            return ret;
+        }
+
+                public Bitmap IvertImage(Bitmap pic)
+        {
+            for (int y = 0; (y <= (pic.Height - 1)); y++)
+            {
+                for (int x = 0; (x <= (pic.Width - 1)); x++)
+                {
+                    Color inv = pic.GetPixel(x, y);
+                    inv = Color.FromArgb(255, (255 - inv.R), (255 - inv.G), (255 - inv.B));
+                    pic.SetPixel(x, y, inv);
+                }
+            }
+            return pic;
+        }
